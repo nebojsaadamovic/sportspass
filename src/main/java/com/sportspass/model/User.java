@@ -1,6 +1,7 @@
 package com.sportspass.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Set;
@@ -46,7 +47,7 @@ public class User {
 
     // Constructors, getters, setters, etc.
 
-    public Long id() {
+    public Long getId() {
         return id;
     }
 
@@ -54,7 +55,7 @@ public class User {
         this.id = id;
     }
 
-    public String username() {
+    public String getUsername() {
         return username;
     }
 
@@ -62,7 +63,7 @@ public class User {
         this.username = username;
     }
 
-    public String password() {
+    public String getPassword() {
         return password;
     }
 
@@ -70,7 +71,7 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> roles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 

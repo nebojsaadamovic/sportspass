@@ -24,19 +24,9 @@ public class HelloWorldController {
 
 
 
-     @GetMapping("hello")
-     @PreAuthorize("hasRole('USER')")  // Dodajte ovu anotaciju
-    public String helloWorld(Model model) {
-        model.addAttribute("message", "Hello, World!");
-        return "hello";
-    }
 
 
 
-    @GetMapping("nesoooo")
-    public List<String> getHelloMessage() {
-        return Collections.singletonList("Hello, Swagger!");
-    }
 
 
 }

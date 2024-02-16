@@ -31,9 +31,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) -> authz
-                                .requestMatchers("/authenticate").permitAll()//
-                                .requestMatchers("/api/user/random").authenticated()
+                                .requestMatchers("/authenticate").permitAll()
                                 .requestMatchers("/api/user/login").permitAll()
+                                .requestMatchers("/api/user/register").permitAll()
+                                .requestMatchers("/api/account-user/**").permitAll()
+                                .requestMatchers("/api/credit-card/create{userId}").permitAll()
                                 //.requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 //  .requestMatchers("/api/user/**").hasRole("USER")
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**",

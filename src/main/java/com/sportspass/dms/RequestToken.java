@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Entity
 @Table(name = "request_tokens")
@@ -26,6 +28,12 @@ public class RequestToken {
     @Column(nullable = true)
     private String page;
 
+    @Column(nullable = true)
+    private Date dateGenerateQR;
+
+    @Column(nullable = true)
+    private Date dateReadQR;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,6 +48,11 @@ public class RequestToken {
     @ManyToOne
     @JoinColumn(name = "account_user_id")
     private AccountUser accountUser;
+
+    @ManyToOne
+    @JoinColumn(name = "account_partner_id")
+    private AccountUser accountPartner;
+
 
 
 }

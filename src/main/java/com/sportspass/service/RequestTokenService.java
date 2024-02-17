@@ -8,6 +8,8 @@ import com.sportspass.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class RequestTokenService {
 
@@ -17,7 +19,7 @@ public class RequestTokenService {
     @Autowired
     UserRepository userRepository;
 
-    public void save(Long userId, String randomRequestToken, String status, String page, AccountUser accountUser) {
+    public void save(Long userId, String randomRequestToken, String status, String page, AccountUser accountUser, Date date) {
         // Assuming you have a method to retrieve User details from the userId
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
@@ -26,6 +28,8 @@ public class RequestTokenService {
             requestToken.setToken(randomRequestToken);
             requestToken.setStatus(status);
             requestToken.setPage(page);
+            requestToken.setAccountUser(accountUser);
+            requestToken.setDateGenerateQR(date);
             requestTokenRepository.save(requestToken);
         } else {
             // Handle the case where the user with the given userId is not found
@@ -43,5 +47,9 @@ public class RequestTokenService {
 
     public RequestToken getReferenceById(Long id) {
         return requestTokenRepository.getReferenceById(id);
+    }
+
+    public RequestToken save(RequestToken requestToken) {
+        return requestTokenRepository.save(requestToken);
     }
 }

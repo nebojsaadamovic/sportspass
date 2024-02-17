@@ -2,12 +2,14 @@ package com.sportspass.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
+//@RequiredArgsConstructor
 public class User {
 
     @Id
@@ -19,6 +21,13 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -45,7 +54,7 @@ public class User {
         this.roles = roles;
     }
 
-    // Constructors, getters, setters, etc.
+//     Constructors, getters, setters, etc.
 
     public Long getId() {
         return id;
@@ -69,6 +78,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Set<Role> getRoles() {

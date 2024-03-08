@@ -28,11 +28,20 @@ public class RequestToken {
     @Column(nullable = true)
     private String page;
 
-    @Column(nullable = true)
+    @Column(name="date_generate_qr" , nullable = true)
     private Date dateGenerateQR;
 
-    @Column(nullable = true)
+    @Column(name="date_read_qr",nullable = true)
     private Date dateReadQR;
+
+    @Column(name="count_entries",nullable = true)
+    private Integer countEntries;
+
+    @Column(name="ticket_price",nullable = true)
+    private Double ticketPrice;
+
+    @Column(name="current_balance",nullable = true)
+    private Double currentBalance;
 
 
     @ManyToOne

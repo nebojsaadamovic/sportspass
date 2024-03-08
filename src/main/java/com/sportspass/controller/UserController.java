@@ -1,13 +1,13 @@
 package com.sportspass.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sportspass.dms.RequestToken;
-import com.sportspass.model.Role;
 import com.sportspass.model.User;
+import com.sportspass.repository.PackagesRepository;
 import com.sportspass.repository.UserRepository;
 import com.sportspass.service.AccountUserService;
 import com.sportspass.service.RequestTokenService;
 import com.sportspass.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,7 @@ import java.util.*;
 @RequestMapping("/api/user/")
 @Transactional
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(AccountUserController.class);
 
     @Autowired
     UserService userService;
@@ -28,53 +29,37 @@ public class UserController {
     RequestTokenService requestTokenService;
     @Autowired
     AccountUserService accountUserService;
+    @Autowired
+    PackagesRepository packagesRepository;
+
 
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody User loginRequest) {
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
-        User user = userService.getUserByUsernameAndPassword(username, password);
-        Map<String, String> response = new HashMap<>();
-        String roleNames = null;
-        if (user != null) {
-            Set<Role> roles = user.getRoles();
-            for (Role role : roles) {
-                roleNames = role.getName();
-            }
-        }
-        if (roleNames.equals("USER")) {
-            String userId = String.valueOf(user.getId());
-            response.put("role", "USER");
-            response.put("userId", userId);
-            return ResponseEntity.ok(response.toString());
-        }
-        if (roleNames.equals("PARTNER")) {
-            String userId = String.valueOf(user.getId());
-            response.put("role", "PARTNER");
-            response.put("userId", userId);
-            return ResponseEntity.ok(response.toString());
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect username or password");
-        }
+        return userService.loginUser(loginRequest);
     }
 
     @PostMapping("register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
-        System.out.println("Received user registration request: " + user);
-        User registrationSuccess = userService.save(user);
-        if (registrationSuccess != null) {
-            System.out.println(registrationSuccess+"lll");
-            return ResponseEntity.ok("User registered successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user");
-        }
+        return userService.save(user);
     }
-
 
     @GetMapping("partners")
     public ResponseEntity<List<String>> listPartners() {
         List<String> partners = userService.listPartners();
         return ResponseEntity.ok(partners);
     }
+
+    @PostMapping("list-used-terms-packages/{userId}")
+    public ResponseEntity<List<String>> listOfUsedTermsByPackages(@PathVariable String userId) {
+        try {
+            List<String> usedTerms = userService.listOfUsedTermsByPackages(Long.valueOf(userId));
+            return ResponseEntity.ok(usedTerms);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonList("Error occurred: " + e.getMessage()));
+        }
+    }
+
+
+
 
 }

@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/login").permitAll()
                                 .requestMatchers("/api/user/register").permitAll()
                                 .requestMatchers("/api/account-user/**").permitAll()
+                                .requestMatchers("/api/packages/**").permitAll()
                                 .requestMatchers("/api/credit-card/create{userId}").permitAll()
                                 //.requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 //  .requestMatchers("/api/user/**").hasRole("USER")

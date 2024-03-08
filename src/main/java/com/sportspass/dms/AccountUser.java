@@ -1,5 +1,6 @@
 package com.sportspass.dms;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sportspass.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -17,13 +18,9 @@ public class AccountUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-
-//    @OneToOne(mappedBy = "accountUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private CreditCard creditCard;
 
     @OneToMany(mappedBy = "accountUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RequestToken> requestTokens;
@@ -31,14 +28,39 @@ public class AccountUser {
     @Column(nullable = true)
     private String payment;
 
-    @Column(nullable = true)
-    private Integer numberOfEntries;
+    @Column(name = "count_entries",nullable = true)
+    private Integer countEntries;
 
-    @Column(nullable = true)
+    @Column(name = "number_of_entries",nullable = true)
+    private Integer numberOfEntries;   //obrisati
+
+    @Column(name="package_a", nullable = true)
     private String packageA;
 
     @Column(nullable = true)
     private Boolean active;
 
+    @JsonIgnore // Add this annotation to ignore serialization of this field
+    @OneToMany(mappedBy = "accountUser")
+    private List<UnionAccountUserPackages> packages;
 
+
+
+
+
+    public User user() {
+        return user;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountUser{" +
+                "id=" + id +
+                ", user=" + user +
+                ", payment='" + payment + '\'' +
+                ", packageA='" + packageA + '\'' +
+                ", active=" + active +
+                // Avoid calling toString() on related entities to prevent potential recursion
+                '}';
+    }
 }

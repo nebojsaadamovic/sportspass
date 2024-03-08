@@ -2,8 +2,10 @@ package com.sportspass.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -16,19 +18,42 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name="user_name",nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Getter
+    @Column(name="first_name",nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Getter
+    @Column(name="last_name",nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
+    private String email;
 
+    @Column(nullable = true)
+    private String address;
+
+    @Column(nullable = true)
+    private String city;
+
+    @Column(name="date_of_birth",nullable = true)
+    private Date dateOfBirth;
+    @Column(name="certificate_of_regular_studies",nullable = true)
+    private String certificateOfRegularStudies;
+    @Column(name="phone_number",nullable = true)
+    private String phoneNumber;
+
+    @Column(nullable = true)
+    private String image;
+
+
+
+    @Getter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -96,6 +121,62 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getCertificateOfRegularStudies() {
+        return certificateOfRegularStudies;
+    }
+
+    public void setCertificateOfRegularStudies(String certificateOfRegularStudies) {
+        this.certificateOfRegularStudies = certificateOfRegularStudies;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -103,4 +184,6 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+
 }

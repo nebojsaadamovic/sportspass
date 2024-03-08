@@ -18,24 +18,23 @@ public class CreditCard {
     private Long id;
 
 
-    @Column(nullable = false, unique = true)
-    private String lastName;
-    @Column(nullable = false, unique = true)
-    private String firstName;
-    @Column(nullable = false, unique = true)
+    @Column(name = "card_number",nullable = false, unique = true)
     private String cardNumber;
 
-    @Column(nullable = false)
+    @Column(name = "card_holder_name",nullable = false)
     private String cardholderName;
 
-    @Column(nullable = false)
+    @Column(name = "expiration_month",nullable = false)
     private int expirationMonth;
 
-    @Column(nullable = false)
+    @Column(name = "expiration_year",nullable = false)
     private int expirationYear;
 
     @Column(nullable = false)
     private String cvv;
+
+    @Column(name = "bank_name",nullable = false)
+    private String bankName;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
